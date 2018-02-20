@@ -12,7 +12,7 @@
 %       -error if not an int
 % - construct visibility plot
 % - construct visibility array
-
+% - Integrate the Waypoints subclass: qinit and qgoal specifically
 
 classdef obstacleField
     properties %(SetAccess = private)
@@ -24,6 +24,8 @@ classdef obstacleField
         qgoal;        %Has an end point been defined?
         fieldSize = 10; %Set the field size
         minFieldSize = 0; %the minimum x and y value to plot
+        
+        PointIndex = []; %an array of all the points in the obstacle field
         
     end %end properties
     
@@ -165,16 +167,75 @@ classdef obstacleField
             of.minFieldSize = minNo - border; 
         end
         
+        %% Constrict the point index array
+        %the point index array is a single array that will contain all the
+        %points in each obstacle, the waypoints, and the qinit and goal. It
+        %will be the primary way to index points in the visibility graph
+        %and plot functions.
+        
+        %To access a point index numer C, call the command 
+        % obstacleField.PointIndex(C,:) and it will return the point.
+        
+        %To do:
+        % - work in waypoints
+        % - find a way to return A1, B4, etc. versus just since points.
+        function of = constructPointIndex(of)
+            holderArray = []; %We'll fill this up with all the points
+            temp = [];
+            %starting with obstacle 1, loop through the array and load in
+            %each point:
+            for i = 1:of.NumObstacles
+                %get the obstacle's vertices and store them in temp:
+                temp = of.Field(i).Vertices;
+                holderArray = [holderArray; temp];
+                
+                
+            end
+            
+            %now that all the points are loaded, if qinit and goal exist,
+            %load them as well:
+            if(isempty(of.qinit) ~= true) %"If qInit is empty is false, it's been assigned"
+                holderArray = [holderArray; of.qinit];
+            end
+            if(isempty(of.qgoal) ~= true) %"If qgoal is empty is false, it's been assigned"
+                holderArray = [holderArray; of.qgoal];
+            end
+            
+            %now that all the points are indexed, assign the holder array
+            %to the PointIndexValue:
+            of.PointIndex = holderArray;
+        end
+        
+        %% Get point from Index:
+        % This fuction works backwards from the point index array: it is
+        % fed an index number and returns the point. This will be used to
+        % map the completed visibility matrix to the points in the field.
+        
+        % To do:
+        % - The if statement for the isempty does not update the obstacle
+        % field's PointIndex. It DOES, however, return the correct value.
+        function point = getPointFromIndex(of, index)
+            %If the PointIndex array is empty, build one:
+            if (isempty(of.PointIndex) == true)
+                of = constructPointIndex(of)
+
+            end
+            
+            point = of.PointIndex(index, :);
+
+        end
+        
         %% construct visibility matrix
         function visibilityMatrix(of)
             %in a loop: load in the points of the obstacle:
             %get all the other points
             
             for i = 1:of.NumObstacles - 1
+                disp('More to come...')
                 %Get the x points of the obstacle:
-                xpoint = of.Field(i+1).Vertices(i,1)
-                %Get the y points: 
-                ypoint = of.Field(i+1).Vertices(i,2)
+%                 xpoint = of.Field(i+1).Vertices(i,1)
+%                 %Get the y points: 
+%                 ypoint = of.Field(i+1).Vertices(i,2)
                 %first connect the first and last point by reloading 
                 %the first point into the last slot:
 %                 xpoints = [xpoints', xpoints(1)];

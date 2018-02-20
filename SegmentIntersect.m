@@ -18,8 +18,8 @@ P = [a,b]
 
 % Line segment 2 is Q(t). It consists of the start point c (cx, cy) and
 % the end point d (dx, dy).
-c = [2;3]
-d = [2;2]
+c = [2;2]
+d = [3;2]
 Q = [c,d]
 
 %% Plot it:
