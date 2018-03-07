@@ -26,6 +26,8 @@ classdef obstacleField
         minFieldSize = 0; %the minimum x and y value to plot
         
         PointIndex = []; %an array of all the points in the obstacle field
+        VisibilityArray = []; %This is where we will store the visibility 
+                               %array once we create it
         
     end %end properties
     
@@ -108,7 +110,7 @@ classdef obstacleField
             if(isempty(of.qinit) ~= true)
                 plot(of.qinit(1), of.qinit(2), 'g*')
             end
-            
+             
             %if qgoal is defined:
             if(isempty(of.qgoal) ~= true)
                 plot(of.qgoal(1), of.qgoal(2), 'r*')
@@ -171,11 +173,17 @@ classdef obstacleField
         %the point index array is a single array that will contain all the
         %points in each obstacle, the waypoints, and the qinit and goal. It
         %will be the primary way to index points in the visibility graph
-        %and plot functions.
+        %and plot functions. 
+        
+        %The Index is a 3 dimensional array. Array 1 (:, :, 1) yeilds
+        %the points. Array 2 yelds an nx2 array that is an index of which 
+        %(obstacle #, point #) we are on. So calling of.PointIndex(1,:, 2)
+        %will return [1,1] or "obstacle 1, point 1." of.PointIndex(2, : 2)
+        %will return [1,2] of "obstacle 1, point 2."
         
         %To access a point index numer C, call the command 
-        % obstacleField.PointIndex(C,:) and it will return the point.
-        
+        % obstacleField.PointIndex(C,:, 1) and it will return the point.
+
         %To do:
         % - work in waypoints
         % - find a way to return A1, B4, etc. versus just since points.
@@ -187,18 +195,37 @@ classdef obstacleField
             for i = 1:of.NumObstacles
                 %get the obstacle's vertices and store them in temp:
                 temp = of.Field(i).Vertices;
+                %This loads into the temp array's second array all of colum
+                % 1: the obstacle number.
+                temp(:, 1, 2) = i;
+                
+                %Now load into the second arry's colum 2 the point number:
+                for j = 1:of.Field(i).NumVertices
+                    temp(j, 2, 2) = j;
+                end
+                
                 holderArray = [holderArray; temp];
-                
-                
             end
             
             %now that all the points are loaded, if qinit and goal exist,
             %load them as well:
+            
+            %All q points will be "obstacle numer 0."
             if(isempty(of.qinit) ~= true) %"If qInit is empty is false, it's been assigned"
-                holderArray = [holderArray; of.qinit];
+                temp = of.qinit;
+                %The second array is [0, 0], with init being point 0.
+                temp(:, 1, 2) = 0;
+                temp(:, 2, 2) = 0;
+                holderArray = [holderArray; temp];
+                %holderArray = [holderArray; of.qinit];
             end
             if(isempty(of.qgoal) ~= true) %"If qgoal is empty is false, it's been assigned"
-                holderArray = [holderArray; of.qgoal];
+                temp = of.qgoal;
+                temp(:, 1, 2) = 0;
+                temp(:, 2, 2) = 1;
+                %The second array is [0, 1], with goal being point 1.
+                holderArray = [holderArray; temp];
+                %holderArray = [holderArray; of.qgoal];
             end
             
             %now that all the points are indexed, assign the holder array
@@ -217,12 +244,27 @@ classdef obstacleField
         function point = getPointFromIndex(of, index)
             %If the PointIndex array is empty, build one:
             if (isempty(of.PointIndex) == true)
-                of = constructPointIndex(of)
+                of = constructPointIndex(of);
 
             end
             
-            point = of.PointIndex(index, :);
+            point = of.PointIndex(index, :, 1);
+        end
+        
+        %% Get Obstacle info from index:
+        % This function will read in an index number and return the second
+        % array in the point index, returning the [obstacle#, point#] 
+        % To do:
+        % - The if statement for the isempty does not update the obstacle
+        % field's PointIndex. It DOES, however, return the correct value.
+        function point = getObstacleFromIndex(of, index)
+            %If the PointIndex array is empty, build one:
+            if (isempty(of.PointIndex) == true)
+                of = constructPointIndex(of);
 
+            end
+            
+            point = of.PointIndex(index, :, 2);
         end
         
         %% construct visibility matrix
