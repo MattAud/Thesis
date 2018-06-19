@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+<Document>
+<name>
+This should be a line
+</name>
+<Placemark id="plot">
+<name>
+ge_plot
+</name>
+
+<visibility>
+1
+</visibility>
+
+<description>
+<![CDATA[]]>
+</description>
+
+<Style>
+<LineStyle>
+<color>
+ffffffff
+</color>
+
+<width>
+1.00
+</width>
+
+</LineStyle>
+</Style>
+<LineString id="poly_plot">
+<extrude>0</extrude>
+
+<tessellate>1</tessellate>
+
+<altitudeMode>clampToGround</altitudeMode>
+<coordinates>
+-121.898008,36.611903,1.000000 
+-121.910000,36.780000,1.000000 
+-121.910000,36.780000,1.000000 
+-121.898008,36.611903,1.000000 
+</coordinates>
+
+</LineString>
+
+</Placemark>
+
+</Document>
+</kml>

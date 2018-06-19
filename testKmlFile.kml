@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+<Document>
+<name>
+test test?
+</name>
+<Placemark id="point">
+<name>
+
+</name>
+
+<visibility>
+1
+</visibility>
+
+<description>
+<![CDATA[<TABLE border="1"><TR><TD><B>Variable</B></TD><TD><B>Value</B></TD></TR><TR><TD>longitude [decimal degrees]</TD><TD>-121.898</TD></TR><TR><TD>latitude [decimal degrees]</TD><TD>36.6119</TD></TR><TR><TD>elevation [m]</TD><TD>0</TD></TR></TABLE>]]>
+</description>
+
+<Style>
+
+</Style>
+<Point id="point_point">
+<altitudeMode>clampToGround</altitudeMode>
+<tessellate>
+1
+</tessellate>
+<extrude>0</extrude>
+
+<coordinates>
+-121.898008,36.611903,0
+</coordinates>
+
+</Point>
+
+</Placemark>
+
+</Document>
+</kml>

@@ -12,14 +12,14 @@ close all
 
 % Line segment 1 is P(s). It consists of the start point a (ax, ay) and
 % the end point b (bx, by).
-a = [2;2]
-b = [5;5]
+a = [1;1]
+b = [2;2]
 P = [a,b]
 
 % Line segment 2 is Q(t). It consists of the start point c (cx, cy) and
 % the end point d (dx, dy).
-c = [2;2]
-d = [3;2]
+c = [5;5]
+d = [7;7]
 Q = [c,d]
 
 %% Plot it:

@@ -19,46 +19,53 @@ classdef obstacle
                        %return an [x,y] coordinate. For example, [0,1] will
                        %return the first point [2,1] in an obstacle.
     end
-    methods (Static)
+    methods %(Static)
         %constructor method
-        function obst = obstacle(varargin) %VarArgIn is the call for
-        %function obst = makeObstacle(varargin) %VarArgIn is the call for 
-                                       %variable numbers of inputs
-            % Check for atleast three input points:
-            if (nargin < 3) error('Input must be at minimum three points.')
-            end
-            % build an x and y array of the input points:
-            holder = varargin{1};
-            xpoints = [holder(1)];
-            ypoints = [holder(2)];
+    function obst = obstacle(inputArray)
+            holder = inputArray(1, :)
+            xpoints = [holder(1)]
+            ypoints = [holder(2)];    
             
-%             %empty array to store the edges:
-%             edges = [];
-%             edgeHoler = [holder(1), holder(2)];
-            
-            for i = 2:(nargin)  %for the number of inputs minus the first point
+            for i = 2:length(inputArray)  %for the number of inputs minus the first point
                 %update holder:
-                holder = varargin{i};
+                holder = inputArray(i, :);
                 xpoints = [xpoints, holder(1)];
                 ypoints = [ypoints, holder(2)];
-                
-%                 %put the current point into the edge holder array:
-%                 edgeHolder(i) = [holder(1), holder(2)]  
             end
             
             %Set the obstacle's properties
             obst.Vertices = [xpoints; ypoints]';
             obst.NumVertices = length(xpoints);
-            
-            %Set the point assignments:
-    %VV THIS ONE WORKS
-%             s.obstNo = 0
-%             pointHolderArray = [];
-%             for i = 1:length(xpoints)
-%                 pointHolderArray(i,:)= [xpoints(i), ypoints(i)];
+        %end
+        
+%% This part was used before I implimented the Google Maps piece. 
+% It worked for the matlab only portion quite well, but only the Matlab
+% portion. It was too much work to rejigger it to take in the format being
+% produced by the kmlToObstacle function, so I just reqrote the constructor
+% method to take in arrays.
+
+
+%         function obst = obstacle(varargin) %VarArgIn is the call for 
+%                                        %variable numbers of inputs
+%             % Check for atleast three input points:
+%             if (nargin < 3) error('Input must be at minimum three points.')
 %             end
-%             s.Points = pointHolderArray;
-%             obst.pointAssignment = s;
+%             % build an x and y array of the input points:
+%             holder = varargin{1};
+%             xpoints = [holder(1)];
+%             ypoints = [holder(2)];
+% 
+%             
+%             for i = 2:(nargin)  %for the number of inputs minus the first point
+%                 %update holder:
+%                 holder = varargin{i};
+%                 xpoints = [xpoints, holder(1)];
+%                 ypoints = [ypoints, holder(2)];
+%             end
+%             
+%             %Set the obstacle's properties
+%             obst.Vertices = [xpoints; ypoints]';
+%             obst.NumVertices = length(xpoints);
 
             %% Plot it:
             %first connect the first and last point by reloading the first point into
@@ -74,5 +81,7 @@ classdef obstacle
             plot(xpoints, ypoints)
             hold off
         end %makeObstacle
+        
+
     end
 end
