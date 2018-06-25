@@ -1,11 +1,14 @@
-%% Experiment 1:
+%% Experiment 2:
 
 % By Matt Audette
 % 20180618
 
-% The goal of experiemnt 1 is to test the ability of the P3At with Calvin's
+% The goal of experiemnt 2 is to test the ability of the P3At with Calvin's
 % code implimented as a function to follow a series of waypoints. The
 % waypoints are hard coded below.
+
+% It expands on experiment 1 by sorting out the correct number of decimal
+% places in the GPS coordinate.
 
 format long
 
