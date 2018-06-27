@@ -1,4 +1,4 @@
-%% Experiemnt 3
+%% Experiemnt 4
 
 % Instructions:
 % Go Into GoogleEarth, pick a location, and create an obstacle field by
@@ -16,9 +16,9 @@
 clear all
 clc
 
-obstacleFieldName = 'NPScourtyard.kml'
-initPointName = 'NPSinit.kml'
-goalPointName = 'NPSgoal.kml'
+obstacleFieldName = 'NPSexp4.kml'
+initPointName = 'NPSinit4.kml'
+goalPointName = 'NPSgoal4.kml'
 
 %% Create the Obstacle field from the KML:
 % initiate an empty field
@@ -50,9 +50,9 @@ plotOptimalPath(aStarDemo)
 %% Produce the optimal path:
 coordinateList = coordsFromOptimalPath(aStarDemo.optimalPath)
 
-% save('Experiment4WS')
+ save('Experiment4WS')
 
-% load('Experiment3WS')
+% load('Experiment4WS')
 % 
 % % Loop the Function:
 % for i = 1:size(coordinateList, 1)
